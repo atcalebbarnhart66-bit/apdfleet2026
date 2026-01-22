@@ -190,6 +190,51 @@ hr.sep{
   font-size: 12px;
 }
 
+.checklist-grid{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media (min-width: 860px){
+  .checklist-grid.cols2{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.checklist-item{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  background: rgba(15,22,32,0.55);
+}
+
+.checklist-index{
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(90,162,255,0.18);
+  border: 1px solid rgba(90,162,255,0.4);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--text);
+  flex: 0 0 28px;
+}
+
+.checklist-text{
+  display:flex;
+  flex-direction:column;
+  gap: 2px;
+}
+.checklist-text b{
+  font-size: 13px;
+}
+
 .yesno{
   display:flex;
   gap: 6px;
