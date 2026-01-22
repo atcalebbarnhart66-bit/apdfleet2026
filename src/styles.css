@@ -171,6 +171,31 @@ hr.sep{
   gap: 8px;
 }
 
+.numbered-list{
+  margin: 0;
+  padding-left: 22px;
+  display: grid;
+  gap: 8px;
+}
+.numbered-list li{
+  padding-left: 4px;
+}
+.numbered-list .pill{
+  width: 100%;
+}
+
+.subhead{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.subhead h3{
+  margin: 0;
+  font-size: 14px;
+}
+
 .pill{
   border: 1px solid var(--border);
   border-radius: 999px;
