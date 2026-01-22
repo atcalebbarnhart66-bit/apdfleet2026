@@ -234,25 +234,40 @@ export default function SubmitInspection() {
             <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>Yes / No bubbles (add notes in remarks)</div>
           </div>
           <div className="bd">
-            <div className="pills">
+            <ol className="numbered-list">
               {EQUIPMENT_ITEMS.map(item => (
-                <React.Fragment key={item.key}>
+                <li key={item.key}>
                   <YesNoPill
                     label={item.label}
                     value={equipment[item.key]}
                     onChange={(v) => setEquipField(item.key, v)}
                   />
-                  {item.extra ? (
-                    <YesNoPill
-                      label={item.extra.label}
-                      hint={item.label}
-                      value={equipment[item.extra.key]}
-                      onChange={(v) => setEquipField(item.extra.key, v)}
-                    />
-                  ) : null}
-                </React.Fragment>
+                </li>
               ))}
-            </div>
+            </ol>
+            {EQUIPMENT_ITEMS.some(item => item.extra) ? (
+              <>
+                <hr className="sep" />
+                <div className="subhead">
+                  <h3>Battery Charged</h3>
+                  <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>
+                    For equipment items that use batteries
+                  </div>
+                </div>
+                <ol className="numbered-list">
+                  {EQUIPMENT_ITEMS.filter(item => item.extra).map(item => (
+                    <li key={item.extra.key}>
+                      <YesNoPill
+                        label={item.extra.label}
+                        hint={item.label}
+                        value={equipment[item.extra.key]}
+                        onChange={(v) => setEquipField(item.extra.key, v)}
+                      />
+                    </li>
+                  ))}
+                </ol>
+              </>
+            ) : null}
           </div>
         </div>
 
@@ -264,16 +279,17 @@ export default function SubmitInspection() {
             <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>Select Yes / No</div>
           </div>
           <div className="bd">
-            <div className="pills">
+            <ol className="numbered-list">
               {FORM_ITEMS.map(f => (
-                <YesNoPill
-                  key={f.key}
-                  label={f.label}
-                  value={forms[f.key]}
-                  onChange={(v) => setFormField(f.key, v)}
-                />
+                <li key={f.key}>
+                  <YesNoPill
+                    label={f.label}
+                    value={forms[f.key]}
+                    onChange={(v) => setFormField(f.key, v)}
+                  />
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
         </div>
 
