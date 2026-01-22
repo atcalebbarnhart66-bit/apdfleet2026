@@ -239,7 +239,13 @@ export default function SubmitInspection() {
             <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>Select Yes / No for each numbered item.</div>
           </div>
           <div className="bd">
-            <div className="checklist-grid cols2">
+            <div className="checklist-grid">
+              <div className="checklist-header">
+                <span>#</span>
+                <span>Item</span>
+                <span>Yes</span>
+                <span>No</span>
+              </div>
               {EQUIPMENT_ITEMS.map((item, idx) => (
                 <ChecklistRow
                   key={item.key}
@@ -263,7 +269,13 @@ export default function SubmitInspection() {
             </div>
           </div>
           <div className="bd">
-            <div className="checklist-grid cols2">
+            <div className="checklist-grid">
+              <div className="checklist-header">
+                <span>#</span>
+                <span>Item</span>
+                <span>Yes</span>
+                <span>No</span>
+              </div>
               {operationalItems.map((item, idx) => (
                 <ChecklistRow
                   key={item.key}
@@ -286,7 +298,13 @@ export default function SubmitInspection() {
             <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>Select Yes / No for each form.</div>
           </div>
           <div className="bd">
-            <div className="checklist-grid cols2">
+            <div className="checklist-grid">
+              <div className="checklist-header">
+                <span>#</span>
+                <span>Form</span>
+                <span>Yes</span>
+                <span>No</span>
+              </div>
               {FORM_ITEMS.map((f, idx) => (
                 <ChecklistRow
                   key={f.key}
