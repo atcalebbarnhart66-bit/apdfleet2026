@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { supabase } from '../lib/supabase.js'
-import YesNoPill from '../components/YesNoPill.jsx'
+import YesNoRow from '../components/YesNoRow.jsx'
 import { CLEAN_OPTIONS, EQUIPMENT_ITEMS, FORM_ITEMS } from '../lib/schema.js'
 
 function todayISO() {
@@ -149,9 +149,6 @@ export default function SubmitInspection() {
     <form className="card" onSubmit={onSubmit}>
       <div className="hd">
         <h2>Submit Inspection</h2>
-        <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>
-          Required: Car name, Date, Inspected by
-        </div>
       </div>
       <div className="bd">
         {notice ? (
@@ -231,26 +228,40 @@ export default function SubmitInspection() {
         <div className="card" style={{ background: 'rgba(15,22,32,0.25)', boxShadow: 'none' }}>
           <div className="hd">
             <h2>Car Equipment</h2>
-            <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>Yes / No bubbles (add notes in remarks)</div>
+            <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>Numbered checklist (add notes in remarks)</div>
           </div>
           <div className="bd">
-            <div className="pills">
-              {EQUIPMENT_ITEMS.map(item => (
-                <React.Fragment key={item.key}>
-                  <YesNoPill
-                    label={item.label}
-                    value={equipment[item.key]}
-                    onChange={(v) => setEquipField(item.key, v)}
-                  />
-                  {item.extra ? (
-                    <YesNoPill
-                      label={item.extra.label}
-                      hint={item.label}
-                      value={equipment[item.extra.key]}
-                      onChange={(v) => setEquipField(item.extra.key, v)}
-                    />
-                  ) : null}
-                </React.Fragment>
+            <div className="checklist">
+              {EQUIPMENT_ITEMS.map((item, index) => (
+                <YesNoRow
+                  key={item.key}
+                  index={index + 1}
+                  label={item.label}
+                  value={equipment[item.key]}
+                  onChange={(v) => setEquipField(item.key, v)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <hr className="sep" />
+
+        <div className="card" style={{ background: 'rgba(15,22,32,0.25)', boxShadow: 'none' }}>
+          <div className="hd">
+            <h2>Operational / Battery Checks</h2>
+            <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>Numbered checklist for battery and operational items</div>
+          </div>
+          <div className="bd">
+            <div className="checklist">
+              {EQUIPMENT_ITEMS.filter(item => item.extra).map((item, index) => (
+                <YesNoRow
+                  key={item.extra.key}
+                  index={index + 1}
+                  label={`${item.label} — ${item.extra.label}`}
+                  value={equipment[item.extra.key]}
+                  onChange={(v) => setEquipField(item.extra.key, v)}
+                />
               ))}
             </div>
           </div>
@@ -261,13 +272,14 @@ export default function SubmitInspection() {
         <div className="card" style={{ background: 'rgba(15,22,32,0.25)', boxShadow: 'none' }}>
           <div className="hd">
             <h2>Forms in Vehicle</h2>
-            <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>Select Yes / No</div>
+            <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>Numbered checklist</div>
           </div>
           <div className="bd">
-            <div className="pills">
-              {FORM_ITEMS.map(f => (
-                <YesNoPill
+            <div className="checklist">
+              {FORM_ITEMS.map((f, index) => (
+                <YesNoRow
                   key={f.key}
+                  index={index + 1}
                   label={f.label}
                   value={forms[f.key]}
                   onChange={(v) => setFormField(f.key, v)}
