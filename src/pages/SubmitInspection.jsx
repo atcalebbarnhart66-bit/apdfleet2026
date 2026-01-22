@@ -17,11 +17,8 @@ function toIntOrNull(s) {
   return Number.isFinite(n) ? Math.trunc(n) : null
 }
 
-export default function SubmitInspection() {
-  const [busy, setBusy] = useState(false)
-  const [notice, setNotice] = useState(null) // {type:'ok'|'err', text:''}
-
-  const [header, setHeader] = useState({
+function buildHeader() {
+  return {
     car_name: '',
     inspection_date: todayISO(),
     inspected_by: '',
@@ -31,22 +28,31 @@ export default function SubmitInspection() {
     vehicle_remarks: '',
     maintenance_needed: '',
     additional_remarks: '',
-  })
+  }
+}
 
-  const [equipment, setEquipment] = useState(() => {
-    const obj = {}
-    for (const item of EQUIPMENT_ITEMS) {
-      obj[item.key] = null
-      if (item.extra) obj[item.extra.key] = null
-    }
-    return obj
-  })
+function buildEquipment() {
+  const obj = {}
+  for (const item of EQUIPMENT_ITEMS) {
+    obj[item.key] = null
+    if (item.extra) obj[item.extra.key] = null
+  }
+  return obj
+}
 
-  const [forms, setForms] = useState(() => {
-    const obj = {}
-    for (const f of FORM_ITEMS) obj[f.key] = null
-    return obj
-  })
+function buildForms() {
+  const obj = {}
+  for (const f of FORM_ITEMS) obj[f.key] = null
+  return obj
+}
+
+export default function SubmitInspection() {
+  const [busy, setBusy] = useState(false)
+  const [notice, setNotice] = useState(null) // {type:'ok'|'err', text:''}
+
+  const [header, setHeader] = useState(() => buildHeader())
+  const [equipment, setEquipment] = useState(() => buildEquipment())
+  const [forms, setForms] = useState(() => buildForms())
 
   const missingRequired = useMemo(() => {
     return !header.car_name.trim() || !header.inspected_by.trim() || !header.inspection_date
@@ -113,36 +119,22 @@ export default function SubmitInspection() {
       setNotice({ type: 'ok', text: 'Inspection submitted successfully.' })
 
       // reset (keep date = today)
-      setHeader({
-        car_name: '',
-        inspection_date: todayISO(),
-        inspected_by: '',
-        mileage: '',
-        exterior_cleanliness: 'Clean',
-        interior_cleanliness: 'Clean',
-        vehicle_remarks: '',
-        maintenance_needed: '',
-        additional_remarks: '',
-      })
-      setEquipment(() => {
-        const obj = {}
-        for (const item of EQUIPMENT_ITEMS) {
-          obj[item.key] = null
-          if (item.extra) obj[item.extra.key] = null
-        }
-        return obj
-      })
-      setForms(() => {
-        const obj = {}
-        for (const f of FORM_ITEMS) obj[f.key] = null
-        return obj
-      })
+      setHeader(buildHeader())
+      setEquipment(buildEquipment())
+      setForms(buildForms())
     } catch (err) {
       const msg = err?.message ? err.message : 'Submit failed.'
       setNotice({ type: 'err', text: msg })
     } finally {
       setBusy(false)
     }
+  }
+
+  function onReset() {
+    setNotice(null)
+    setHeader(buildHeader())
+    setEquipment(buildEquipment())
+    setForms(buildForms())
   }
 
   return (
@@ -278,7 +270,7 @@ export default function SubmitInspection() {
         </div>
 
         <div className="actions">
-          <button className="btn" type="button" onClick={() => location.reload()} disabled={busy}>
+          <button className="btn" type="button" onClick={onReset} disabled={busy}>
             Reset
           </button>
           <button className="btn primary" type="submit" disabled={busy || missingRequired}>
