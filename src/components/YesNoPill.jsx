@@ -15,14 +15,16 @@ export default function YesNoPill({ label, value, onChange, hint }) {
           className={v === true ? 'on-yes' : ''}
           onClick={() => onChange(true)}
         >
-          Yes
+          <span className="yesno-dot" aria-hidden="true" />
+          <span>Yes</span>
         </button>
         <button
           type="button"
           className={v === false ? 'on-no' : ''}
           onClick={() => onChange(false)}
         >
-          No
+          <span className="yesno-dot" aria-hidden="true" />
+          <span>No</span>
         </button>
       </div>
     </div>

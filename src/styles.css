@@ -173,7 +173,7 @@ hr.sep{
 
 .pill{
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   padding: 8px 10px;
   display:flex;
   align-items:center;
@@ -196,18 +196,40 @@ hr.sep{
   margin-left: auto;
 }
 .yesno button{
-  border: 1px solid var(--border);
-  background: rgba(15,22,32,0.7);
+  border: none;
+  background: transparent;
   color: var(--text);
-  padding: 6px 10px;
-  border-radius: 999px;
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-weight: 800;
   font-size: 12px;
-  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
-.yesno button.on-yes{ border-color: rgba(66,211,146,0.7); box-shadow: 0 0 0 3px rgba(66,211,146,0.15); }
-.yesno button.on-no{ border-color: rgba(255,90,95,0.7); box-shadow: 0 0 0 3px rgba(255,90,95,0.15); }
+.yesno button:focus-visible{
+  outline: 2px solid rgba(90,162,255,0.6);
+  outline-offset: 2px;
+}
+.yesno-dot{
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: rgba(15,22,32,0.7);
+  display: inline-block;
+}
+.yesno button.on-yes .yesno-dot{
+  border-color: rgba(66,211,146,0.8);
+  background: rgba(66,211,146,0.3);
+  box-shadow: 0 0 0 3px rgba(66,211,146,0.15);
+}
+.yesno button.on-no .yesno-dot{
+  border-color: rgba(255,90,95,0.8);
+  background: rgba(255,90,95,0.3);
+  box-shadow: 0 0 0 3px rgba(255,90,95,0.15);
+}
 
 .actions{
   display:flex;
