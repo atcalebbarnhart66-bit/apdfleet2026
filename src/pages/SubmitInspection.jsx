@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react'
 import { supabase } from '../lib/supabase.js'
-import YesNoPill from '../components/YesNoPill.jsx'
 import { CLEAN_OPTIONS, EQUIPMENT_ITEMS, FORM_ITEMS } from '../lib/schema.js'
 
 function todayISO() {
@@ -15,6 +14,34 @@ function toIntOrNull(s) {
   if (s === '' || s === null || s === undefined) return null
   const n = Number(s)
   return Number.isFinite(n) ? Math.trunc(n) : null
+}
+
+function YesNoToggle({ value, onChange }) {
+  const v = value === true ? true : value === false ? false : null
+
+  return (
+    <div className="yesno" title="Select Yes or No">
+      <button type="button" className={v === true ? 'on-yes' : ''} onClick={() => onChange(true)}>
+        Yes
+      </button>
+      <button type="button" className={v === false ? 'on-no' : ''} onClick={() => onChange(false)}>
+        No
+      </button>
+    </div>
+  )
+}
+
+function ChecklistRow({ number, label, hint, value, onChange }) {
+  return (
+    <div className="checklist-item">
+      <div className="checklist-number">{number}</div>
+      <div className="checklist-label">
+        <div className="checklist-title">{label}</div>
+        {hint ? <div className="checklist-hint">{hint}</div> : null}
+      </div>
+      <YesNoToggle value={value} onChange={onChange} />
+    </div>
+  )
 }
 
 export default function SubmitInspection() {
@@ -149,9 +176,6 @@ export default function SubmitInspection() {
     <form className="card" onSubmit={onSubmit}>
       <div className="hd">
         <h2>Submit Inspection</h2>
-        <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>
-          Required: Car name, Date, Inspected by
-        </div>
       </div>
       <div className="bd">
         {notice ? (
@@ -231,26 +255,41 @@ export default function SubmitInspection() {
         <div className="card" style={{ background: 'rgba(15,22,32,0.25)', boxShadow: 'none' }}>
           <div className="hd">
             <h2>Car Equipment</h2>
-            <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>Yes / No bubbles (add notes in remarks)</div>
+            <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>Answer yes or no for each numbered item.</div>
           </div>
           <div className="bd">
-            <div className="pills">
-              {EQUIPMENT_ITEMS.map(item => (
-                <React.Fragment key={item.key}>
-                  <YesNoPill
-                    label={item.label}
-                    value={equipment[item.key]}
-                    onChange={(v) => setEquipField(item.key, v)}
-                  />
-                  {item.extra ? (
-                    <YesNoPill
-                      label={item.extra.label}
-                      hint={item.label}
-                      value={equipment[item.extra.key]}
-                      onChange={(v) => setEquipField(item.extra.key, v)}
-                    />
-                  ) : null}
-                </React.Fragment>
+            <div className="checklist-grid">
+              {EQUIPMENT_ITEMS.map((item, index) => (
+                <ChecklistRow
+                  key={item.key}
+                  number={index + 1}
+                  label={item.label}
+                  value={equipment[item.key]}
+                  onChange={(v) => setEquipField(item.key, v)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <hr className="sep" />
+
+        <div className="card" style={{ background: 'rgba(15,22,32,0.25)', boxShadow: 'none' }}>
+          <div className="hd">
+            <h2>Operational / Battery Checks</h2>
+            <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>Complete only the equipment with battery or operational checks.</div>
+          </div>
+          <div className="bd">
+            <div className="checklist-grid">
+              {EQUIPMENT_ITEMS.filter(item => item.extra).map((item, index) => (
+                <ChecklistRow
+                  key={item.extra.key}
+                  number={index + 1}
+                  label={item.label}
+                  hint={item.extra.label}
+                  value={equipment[item.extra.key]}
+                  onChange={(v) => setEquipField(item.extra.key, v)}
+                />
               ))}
             </div>
           </div>
@@ -264,10 +303,11 @@ export default function SubmitInspection() {
             <div className="small" style={{ color: 'var(--muted)', fontWeight: 800 }}>Select Yes / No</div>
           </div>
           <div className="bd">
-            <div className="pills">
-              {FORM_ITEMS.map(f => (
-                <YesNoPill
+            <div className="checklist-grid">
+              {FORM_ITEMS.map((f, index) => (
+                <ChecklistRow
                   key={f.key}
+                  number={index + 1}
                   label={f.label}
                   value={forms[f.key]}
                   onChange={(v) => setFormField(f.key, v)}

@@ -171,6 +171,48 @@ hr.sep{
   gap: 8px;
 }
 
+.checklist-grid{
+  display:grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.checklist-item{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display:grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  background: rgba(15,22,32,0.55);
+}
+
+.checklist-number{
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(90,162,255,0.2);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.checklist-title{
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.checklist-hint{
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
 .pill{
   border: 1px solid var(--border);
   border-radius: 999px;
