@@ -5,8 +5,8 @@ export default function YesNoPill({ label, value, onChange, hint }) {
 
   return (
     <div className="pill">
-      <div>
-        <b>{label}</b>
+      <div className="pill-text">
+        <div className="pill-title">{label}</div>
         {hint ? <div className="muted">{hint}</div> : null}
       </div>
       <div className="yesno" title="Select Yes or No">
