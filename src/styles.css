@@ -166,23 +166,30 @@ hr.sep{
 }
 
 .pills{
-  display:flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
 }
 
 .pill{
   border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
   display:flex;
-  align-items:center;
-  gap: 8px;
+  align-items:flex-start;
+  gap: 16px;
   background: rgba(15,22,32,0.55);
 }
 
-.pill b{
-  font-size: 13px;
+.pill-text{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pill-title{
+  font-size: 14px;
+  font-weight: 700;
 }
 .pill .muted{
   color: var(--muted);
@@ -194,17 +201,18 @@ hr.sep{
   display:flex;
   gap: 6px;
   margin-left: auto;
+  align-items: center;
 }
 .yesno button{
   border: 1px solid var(--border);
   background: rgba(15,22,32,0.7);
   color: var(--text);
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
   cursor: pointer;
   font-weight: 800;
   font-size: 12px;
-  min-width: 44px;
+  min-width: 52px;
 }
 .yesno button.on-yes{ border-color: rgba(66,211,146,0.7); box-shadow: 0 0 0 3px rgba(66,211,146,0.15); }
 .yesno button.on-no{ border-color: rgba(255,90,95,0.7); box-shadow: 0 0 0 3px rgba(255,90,95,0.15); }
